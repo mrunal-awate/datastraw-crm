@@ -78,6 +78,7 @@ function TicketList() {
       ) : tickets.length === 0 ? (
         <p className="text-gray-500">No tickets found.</p>
       ) : (
+        <div className="overflow-x-auto">
         <table className="w-full border-collapse bg-white shadow-sm rounded overflow-hidden">
           <thead className="bg-gray-100 text-left text-sm text-gray-600">
             <tr>
@@ -106,6 +107,7 @@ function TicketList() {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );
