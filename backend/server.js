@@ -7,7 +7,22 @@ const ticketRoutes = require('./src/routes/tickets');
 
 const app = express();
 
-app.use(cors());
+// Only allow requests from your actual frontend (and localhost during dev).
+// FRONTEND_URL is set as an environment variable once the frontend is deployed.
+const allowedOrigins = ['http://localhost:5173'];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // requests with no origin (curl, Postman, server-to-server) are allowed
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
+}));
 app.use(express.json());
 
 // Health check — useful to verify the deployed server is actually alive
